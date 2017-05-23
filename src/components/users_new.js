@@ -11,6 +11,7 @@ class UsersNew extends Component {
 
   onSubmit(values) {
     console.log(values);
+    this.props.reset();
   }
 
   isSubmitEnabled() {
@@ -30,22 +31,22 @@ class UsersNew extends Component {
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-      <div>
+      <div className="form-group">
         <label>First Name</label>
         <div>
-          <Field name="firstName" component="input" type="text" />
+          <Field name="firstName" component="input" type="text" className="curvedBorder" />
         </div>
       </div>
-      <div>
+      <div className="form-group">
         <label>Last Name</label>
         <div>
-          <Field name="lastName" component="input" type="text" />
+          <Field name="lastName" component="input" type="text" className="curvedBorder" />
         </div>
       </div>
-      <div>
+      <div className="form-group">
         <label>Age</label>
         <div>
-          <Field name="age" component="input" type="text" />
+          <Field name="age" component="input" type="text" className="curvedBorder" />
         </div>
       </div>
       <button type="submit" className="btn btn-primary" disabled={!isEnabled}>Submit</button>
