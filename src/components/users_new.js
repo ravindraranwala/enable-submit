@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
+import { saveUser } from '../actions';
 
 class UsersNew extends Component {
   constructor(props) {
@@ -10,8 +11,11 @@ class UsersNew extends Component {
 
 
   onSubmit(values) {
-    console.log(values);
-    this.props.reset();
+    // this === component
+    this.props.saveUser(values, () => {
+      this.props.history.push('/');
+    });
+    // this.props.reset();
   }
 
   isSubmitEnabled() {
@@ -59,7 +63,7 @@ class UsersNew extends Component {
 UsersNew = reduxForm({
   form: 'UserNewForm'
 })(
-  UsersNew
+  connect(null, { saveUser })(UsersNew)
 );
 
 // Decorate with connect to read form values
