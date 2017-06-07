@@ -28,6 +28,24 @@ class UsersNew extends Component {
    return false;
  }
 
+ renderField(field) {
+    const { meta: { touched, error }} = field;
+    const className = `form-group ${touched && error ? 'has-danger' : ''}`;
+    return (
+      <div className={className}>
+        <label>{field.label}</label>
+        <input
+          className="form-control"
+          type="text"
+          {...field.input}
+        />
+      <div className="text-help">
+          {touched ? error : ''}
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { handleSubmit } = this.props;
     const isEnabled = this.isSubmitEnabled();
@@ -35,32 +53,35 @@ class UsersNew extends Component {
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-      <div className="form-group">
-        <label>First Name</label>
-        <div>
-          <Field name="firstName" component="input" type="text" className="curvedBorder" />
-        </div>
-      </div>
-      <div className="form-group">
-        <label>Last Name</label>
-        <div>
-          <Field name="lastName" component="input" type="text" className="curvedBorder" />
-        </div>
-      </div>
-      <div className="form-group">
-        <label>Age</label>
-        <div>
-          <Field name="age" component="input" type="text" className="curvedBorder" />
-        </div>
-      </div>
-      <button type="submit" className="btn btn-primary" disabled={!isEnabled}>Submit</button>
+          <Field name="firstName" component={this.renderField} type="text" className="curvedBorder" label="First Name" />
+          <Field name="lastName" component={this.renderField} type="text" className="curvedBorder" label="Last Name" />
+          <Field name="age" component={this.renderField} type="text" className="curvedBorder" label="Age" />
+          <button type="submit" className="btn btn-primary" disabled={!isEnabled}>Submit</button>
       </form>
     );
   }
 }
 
+function validate(values) {
+  // console.log(values) -> { title: 'asdf', categories: 'asdf', content:'asdf'}
+  const errors = {};
+
+  // Validate the inputs from 'values'
+  if (!values.firstName) {
+    errors.firstName = "Enter a firstName!";
+  }
+  if (!values.lastName) {
+    errors.lastName = 'Enter lastName';
+  }
+
+// If errors is empty, the form is fine to submit
+// If errors has *any* properties, redux form assumes form is invalid
+  return errors;
+}
+
 
 UsersNew = reduxForm({
+  validate,
   form: 'UserNewForm'
 })(
   connect(null, { saveUser })(UsersNew)
