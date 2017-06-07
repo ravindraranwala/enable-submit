@@ -68,7 +68,7 @@ function validate(values) {
 
   // Validate the inputs from 'values'
   if (!values.firstName) {
-    errors.firstName = "Enter a firstName!";
+    errors.firstName = "Enter a firstName";
   }
   if (!values.lastName) {
     errors.lastName = 'Enter lastName';
