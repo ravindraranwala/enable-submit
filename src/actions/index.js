@@ -13,7 +13,7 @@ export function saveUser(user, callback) {
   return function(dispatch, getState) {
     return userApi.saveUser(user).then(savedUser => {
       callback();
-      dispatch(createUserSuccess(saveUser));
+      dispatch(createUserSuccess(savedUser));
     }).catch(error => {
       throw error;
     });
